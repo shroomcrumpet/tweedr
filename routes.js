@@ -1,13 +1,14 @@
+
+
 module.exports = (app, db) => {
 
-  const users = require('./controllers/user')(db);
+    const usersController = require('./controllers/user')(db);
 
-  /*
-   *  =========================================
-   *  Users
-   *  =========================================
-   */
-  // CRUD users
-  app.get('/users/new', users.newForm);
-  app.post('/users', users.create);
+    // =========================================
+    // Users
+    // =========================================
+
+    app.get('/users/new', usersController.newUserForm);
+    app.post('/users', usersController.newUserPost);
+
 };

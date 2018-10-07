@@ -1,48 +1,42 @@
+
+
+
 module.exports = (db) => {
 
-  /**
-   * ===========================================
-   * Controller logic
-   * ===========================================
-   */
-  const newForm = (request, response) => {
-    response.render('user/NewUser');
-  };
 
-  const create = (request, response) => {
-      // use user model method `create` to create new user entry in db
-      db.user.create(request.body, (error, queryResult) => {
-        // queryResult of creation is not useful to us, so we ignore it
-        // (console log it to see for yourself)
-        // (you can choose to omit it completely from the function parameters)
+    const newUserForm = (request, response) => {
 
-        if (error) {
-          console.error('error getting user:', error);
-          response.sendStatus(500);
-        }
+        response.render('user/NewUser');
 
-        if (queryResult.rowCount >= 1) {
-          console.log('User created successfully');
+    };
 
-          // drop cookies to indicate user's logged in status and username
-          response.cookie('loggedIn', true);
-          response.cookie('username', request.body.name);
-        } else {
-          console.log('User could not be created');
-        }
+    const newUserPost = (request, response) => {
 
-        // redirect to home page after creation
-        response.redirect('/');
-      });
-  };
+        db.user.newUser(request.body, (error, queryResult) => {
 
-  /**
-   * ===========================================
-   * Export controller functions as a module
-   * ===========================================
-   */
-  return {
-    newForm,
-    create
-  };
+            if (error) {
+                console.error('error getting user:', error);
+                response.sendStatus(500);
+            }
+
+            if (queryResult.rowCount >= 1) {
+                console.log('User created successfully');
+
+                response.cookie('loggedIn', true);
+                response.cookie('userId', queryResult.rows[0].id);
+                response.cookie('username', request.body.username);
+
+            } else {
+                console.log('User could not be created');
+            };
+
+            response.redirect('/');
+        });
+    };
+
+
+    return {
+        newUserForm,
+        newUserPost
+    };
 };

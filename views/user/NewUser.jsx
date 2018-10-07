@@ -8,7 +8,7 @@ class NewUser extends React.Component {
         <body>
           <form className="user-form" method="POST" action="/users">
             <div className="user-attribute">
-              name<input name="name" type="text" />
+              username<input name="username" type="text" />
             </div>
             <div className="user-attribute">
               password:<input name="password" type="text" />

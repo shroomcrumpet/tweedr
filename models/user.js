@@ -1,32 +1,30 @@
-var sha256 = require('js-sha256');
 
 
-/**
- * ===========================================
- * Export model functions as a module
- * ===========================================
- */
+const sha256 = require('js-sha256');
+
+
+
 module.exports = (dbPoolInstance) => {
-    const create = (user, callback) => {
-      // run user input password through bcrypt to obtain hashed password
 
-      var hashedValue = sha256(user.password);
+    const newUser = (reqbody, callback) => {
 
-      // set up query
-      const queryString = 'INSERT INTO users (name, password) VALUES ($1, $3)';
-      const values = [
-        user.name,
-        hashedValue
-      ];
+        var hashedValue = sha256(reqbody.password);
 
-      // execute query
-      dbPoolInstance.query(queryString, values, (error, queryResult) => {
-        // invoke callback function with results after query has executed
-        callback(error, queryResult);
-      });
+        const queryString = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id';
+
+        const values = [
+            reqbody.username,
+            hashedValue
+        ];
+
+        dbPoolInstance.query(queryString, values, (error, queryResult) => {
+
+            callback(error, queryResult);
+        });
     };
 
     return {
-      create
+
+        newUser
     };
 };
