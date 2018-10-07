@@ -4,6 +4,14 @@ const sha256 = require('js-sha256');
 const SALT = 'IMQXhem3mhim23jxda38jwxw3';
 
 
+const verif = (request) => {
+
+    return (sha256(request.cookies['userId'] + SALT) === request.cookies['loggedIn']);
+};
+
+
+
+
 module.exports = (db) => {
 
 
@@ -91,8 +99,16 @@ module.exports = (db) => {
 
     const root = (request, response) => {
 
-        response.render('root');
+        if (verif(request)) {
 
+            console.log ('verif, logged in.');
+            response.render('root', {loggedIn: 'true'});
+
+        } else {
+
+            console.log ('verif, NOT logged in.');
+            response.render('root', {loggedIn: 'false'});
+        };
     };
 
 

@@ -13,6 +13,34 @@ class HomePage extends React.Component {
 
                 <h1># Tweedr #</h1>
 
+                <Stuff loggedIn={this.props.loggedIn} />
+
+            </DefaultLayout>
+        );
+    };
+};
+
+
+class Stuff extends React.Component {
+
+    render () {
+
+        if (this.props.loggedIn === 'true') {
+
+            return (
+
+                <form className="user-form" method="POST" action="/logout?_method=DELETE">
+
+                    <input type="submit" value="LOG OUT" />
+
+                </form>
+
+            );
+
+        } else {    // Not logged in //
+
+            return (
+
                 <form className="user-form" method="POST" action="/login">
 
                     <h4>Login</h4>
@@ -29,18 +57,11 @@ class HomePage extends React.Component {
 
                 </form>
 
+            );
+        };
+    };
+};
 
-                <form className="user-form" method="POST" action="/logout?_method=DELETE">
-
-                    <input type="submit" value="LOG OUT" />
-
-                </form>
-
-
-            </DefaultLayout>
-        );
-    }
-}
 
 module.exports = HomePage;
 
