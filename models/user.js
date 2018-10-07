@@ -23,8 +23,22 @@ module.exports = (dbPoolInstance) => {
         });
     };
 
+
+    const login = (reqbody, callback) => {
+
+        const queryString = `SELECT * FROM users WHERE username = '${reqbody.username}'`;
+
+        dbPoolInstance.query(queryString, (error, queryResult) => {
+
+            callback(error, queryResult);
+        });
+    };
+
+
     return {
 
-        newUser
+        newUser: newUser,
+        login: login
+
     };
 };

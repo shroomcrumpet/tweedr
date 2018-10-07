@@ -16,19 +16,8 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jsx');
 app.engine('jsx', reactEngine);
 
-/**
- * ===================================
- * Routes
- * ===================================
- */
 
 require('./routes')(app, db);
-
-
-app.get('/', (request, response) => {
-    response.send('Welcome To Tweedr.');
-});
-
 
 
 const PORT = process.env.PORT || 3001;

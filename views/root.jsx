@@ -1,19 +1,21 @@
 
 
 var React = require("react");
-var DefaultLayout = require('../layouts/default');
+var DefaultLayout = require('./layouts/default');
 
-class NewUser extends React.Component {
+class HomePage extends React.Component {
 
     render() {
 
         return (
 
-            <DefaultLayout title='User Registration'>
+            <DefaultLayout title='Tweedr'>
 
-                <form className="user-form" method="POST" action="/users">
+                <h1># Tweedr #</h1>
 
-                    <h4>New user registration</h4>
+                <form className="user-form" method="POST" action="/login">
+
+                    <h4>Login</h4>
 
                     <div className="user-attribute">
                         username<input name="username" type="text" minLength="3" required />
@@ -27,12 +29,20 @@ class NewUser extends React.Component {
 
                 </form>
 
+
+                <form className="user-form" method="POST" action="/logout?_method=DELETE">
+
+                    <input type="submit" value="LOG OUT" />
+
+                </form>
+
+
             </DefaultLayout>
         );
     }
 }
 
-module.exports = NewUser;
+module.exports = HomePage;
 
 
 

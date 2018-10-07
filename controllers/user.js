@@ -13,6 +13,7 @@ module.exports = (db) => {
 
     };
 
+
     const newUserPost = (request, response) => {
 
         db.user.newUser(request.body, (error, queryResult) => {
@@ -38,8 +39,76 @@ module.exports = (db) => {
     };
 
 
+    const login = (request, response) => {
+
+        db.user.login(request.body, (error, queryResult) => {
+
+            if (error) {
+                console.error('error getting user:', error);
+                response.sendStatus(500);
+            }
+
+            if (queryResult.rowCount >= 1) {
+                console.log('User found, logging in...');
+
+                if (sha256(request.body.password) === queryResult.rows[0].password) {
+
+                    console.log('Login Successful');
+
+                    response.cookie('loggedIn', sha256(queryResult.rows[0].id + SALT));
+                    response.cookie('userId', queryResult.rows[0].id);
+                    response.cookie('username', request.body.username);
+
+                } else {
+
+                    console.log('Password incorrect, please try again');
+
+                };
+
+            } else {
+
+                console.log('User not found, please try again');
+
+            };
+
+            response.redirect('/');
+        });
+    };
+
+
+    const logout = (request, response) => {
+
+        response.clearCookie('loggedIn');
+        response.clearCookie('userId');
+        response.clearCookie('username');
+
+        console.log('You have been logged out~!');
+
+        response.redirect('/');
+
+    };
+
+
+    const root = (request, response) => {
+
+        response.render('root');
+
+    };
+
+
     return {
+
         newUserForm,
-        newUserPost
+        newUserPost,
+        login,
+        logout,
+        root
+
     };
 };
+
+
+
+
+
+
