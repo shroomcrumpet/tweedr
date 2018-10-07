@@ -13,7 +13,7 @@ class HomePage extends React.Component {
 
                 <h1># Tweedr #</h1>
 
-                <Stuff loggedIn={this.props.loggedIn} />
+                <Stuff cookies={this.props} />
 
             </DefaultLayout>
         );
@@ -25,37 +25,46 @@ class Stuff extends React.Component {
 
     render () {
 
-        if (this.props.loggedIn === 'true') {
+        if (this.props.cookies.loggedIn != undefined) {
 
             return (
 
-                <form className="user-form" method="POST" action="/logout?_method=DELETE">
+                <div>
 
-                    <input type="submit" value="LOG OUT" />
+                    <form className="user-form" method="POST" action="/logout?_method=DELETE">
 
-                </form>
+                        <input type="submit" value="LOG OUT" />
 
+                    </form>
+
+                    <h2>What's on your mind?</h2>
+
+                </div>
             );
 
         } else {    // Not logged in //
 
             return (
 
-                <form className="user-form" method="POST" action="/login">
+                <div>
 
-                    <h4>Login</h4>
+                    <form className="user-form" method="POST" action="/login">
 
-                    <div className="user-attribute">
-                        username<input name="username" type="text" minLength="3" required />
-                    </div>
+                        <h4>Login</h4>
 
-                    <div className="user-attribute">
-                        password:<input name="password" type="text" minLength="3" required />
-                    </div>
+                        <div className="user-attribute">
+                            username<input name="username" type="text" minLength="3" required />
+                        </div>
 
-                    <input name="submit" type="submit" />
+                        <div className="user-attribute">
+                            password:<input name="password" type="text" minLength="3" required />
+                        </div>
 
-                </form>
+                        <input name="submit" type="submit" />
+
+                    </form>
+
+                </div>
 
             );
         };

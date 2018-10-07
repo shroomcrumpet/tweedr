@@ -102,12 +102,12 @@ module.exports = (db) => {
         if (verif(request)) {
 
             console.log ('verif, logged in.');
-            response.render('root', {loggedIn: 'true'});
+            response.render('root', request.cookies);
 
         } else {
 
             console.log ('verif, NOT logged in.');
-            response.render('root', {loggedIn: 'false'});
+            response.render('root');
         };
     };
 
